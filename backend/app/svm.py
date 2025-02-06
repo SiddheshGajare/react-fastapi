@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from typing import Tuple, List, Dict, Any
 import logging
 from datetime import datetime, timedelta
-
+#RELIANCE.NS
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

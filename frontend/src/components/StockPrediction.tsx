@@ -2,6 +2,8 @@ import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, ResponsiveContainer } from "recharts";
 import { Bell, Mail, ChevronDown, Home, LayoutDashboard, Wallet, Newspaper, BarChart2, Users, Settings, Phone } from 'lucide-react';
 import './StockDashboard.css';
+const date = new Date();
+const formattedDate = date.toLocaleDateString('en-CA', { month: '2-digit', day: '2-digit',year: 'numeric' });
 
 const stockData = [
   { month: '15', value: 80 },
@@ -38,7 +40,7 @@ function StockDashboard () {
     const response = await fetch("http://localhost:8000/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ticker, start_date: "2020-01-01", end_date: "2025-01-30", forecast_out: 7 }),
+      body: JSON.stringify({ ticker, start_date: "2020-01-01", end_date: formattedDate, forecast_out: 7 }),
     });
     const data = await response.json();
     setPredictions(data.predictions);
