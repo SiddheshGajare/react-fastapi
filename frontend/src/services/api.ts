@@ -1,6 +1,7 @@
 // frontend/src/services/api.ts
 import { StockRequest, PredictionResponse } from '../types';
-
+const currentDate = new Date();
+const formattedDate = currentDate.toISOString().split('T')[0];
 const API_BASE_URL = 'http://localhost:8000/api';
 
 export class ApiError extends Error {
@@ -15,7 +16,7 @@ export const fetchPredictions = async (ticker: string): Promise<PredictionRespon
     const request: StockRequest = {
       ticker,
       start_date: '2020-01-01',
-      end_date: '2025-01-30',
+      end_date: formattedDate,
       forecast_days: 7
     };
 
