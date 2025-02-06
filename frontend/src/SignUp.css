@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+.signup-container {
+  min-height: 100vh;
+  width: 99vw; /* Ensures the width matches the viewport width */
+  /*background-color: #FC805C;*/
+  background-color:#65A074;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Prevents horizontal scroll if content overflows */
+}
+.form-container h2 {
+  color: black;/* Change this to your desired color */
+}
+
+
+.main-content {
+  width: 100%;
+  max-width: 1900px;
+  background-color: white;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
+  height: 1000px;
+    border: 2px solid;
+ border-radius: 50px;
+}
+
+.left-content {
+  flex: 1;
+  text-align: left;
+}
+
+.left-content h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 1.5rem;
+  padding-left: 275px;
+  padding-top: 50px;
+}
+
+.left-content p {
+  color: black;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+  padding-left: 290px;
+}
+
+.left-content img {
+    padding-left: 250px;
+  max-width: 100%;
+  height: 800px;
+  width: 800px;
+}
+
+.form-wrapper {
+  flex: 1;
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  justify-content: center;
+  padding-right: 225px;
+}
+
+.form-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 5.5rem;
+  height: 575px;
+  box-shadow: 0 80px 399px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+}
+
+.form-container h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-style: Nova Bold;
+  font-family: 'Nova Bold', sans-serif;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.form-fields input,
+.form-fields select {
+  width: 100%;
+  background: white;
+  color-scheme: black;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.form-fields input:focus,
+.form-fields select:focus {
+  outline: none;
+  border-color: #65A074;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.birth-date {
+  text-align: center;
+}
+
+.birth-date label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #000000;
+  font-size: 0.875rem;
+}
+
+.date-selects {
+  display: grid;
+  color: #000000;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  color-scheme: black;
+}
+
+.gender-options {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.gender-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #65A074;
+  color: white;
+  border: none;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: #65A074;
+}
+
+.social-login {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.social-login p {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-buttons button {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-buttons button:hover {
+  background-color: #f8fafc;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .left-content {
+    text-align: center;
+  }
+
+  .left-content img {
+    display: none;
+  }
+
+  .form-wrapper {
+    max-width: 100%;
+  }
+}

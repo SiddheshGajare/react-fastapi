@@ -1,10 +1,10 @@
 import StockPrediction from "./components/StockPrediction.tsx";
-
+import SignUpForm from '../src/SignUpForm';
+import SignInPage from '../src/SignIn';
 function App() {
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Stock Price Prediction</h1>
-      <StockPrediction />
+      <SignUpForm />
     </div>
   );
 }
