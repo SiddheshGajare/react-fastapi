@@ -7,10 +7,10 @@ from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime, timedelta
 
 app = FastAPI()
 
-# Allow CORS for React frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -27,8 +27,20 @@ class StockRequest(BaseModel):
 
 @app.post("/predict")
 def predict_stock(data: StockRequest):
+    # Download stock data
     stock_data = yf.download(data.ticker, start=data.start_date, end=data.end_date)
     
+    # Prepare historical data for response
+    historical_data = [
+        {
+            "date": date.strftime("%Y-%m-%d"),
+            "price": price,
+            "type": "historical"
+        }
+        for date, price in zip(stock_data.index, stock_data['Close'])
+    ]
+    
+    # Prepare data for prediction
     stock_data['Prediction'] = stock_data['Close'].shift(-data.forecast_out)
     stock_data.dropna(inplace=True)
     
@@ -45,5 +57,23 @@ def predict_stock(data: StockRequest):
     last_data = scaler.transform(X[-data.forecast_out:])
     predictions = svr.predict(last_data)
     
-    return {"predictions": predictions.tolist()}
-
+    # Generate dates for predictions
+    last_date = stock_data.index[-1]
+    prediction_dates = [
+        (last_date + timedelta(days=i+1)).strftime("%Y-%m-%d")
+        for i in range(len(predictions))
+    ]
+    
+    # Prepare prediction data for response
+    prediction_data = [
+        {
+            "date": date,
+            "price": price,
+            "type": "prediction"
+        }
+        for date, price in zip(prediction_dates, predictions)
+    ]
+    
+    return {
+        "data": historical_data + prediction_data
+    }
