@@ -1,8 +1,7 @@
 import React from 'react';
 import './SignIn.css';
 import investmentImage from './assets/photo/potosss.jpg';
-
-
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 const SignInPage = () => {
   const [formData, setFormData] = React.useState({
     name: '',
@@ -15,7 +14,7 @@ const SignInPage = () => {
     },
     gender: ''
   });
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
@@ -42,7 +41,7 @@ const SignInPage = () => {
 
   return (
     <div className="signup-container">
-      <div className="main-content">
+      <div className="main-content2">
         {/* Left side content */}
         <div className="left-content">
           <h1>Trade Your Plan Not Emotion!</h1>
@@ -82,7 +81,7 @@ const SignInPage = () => {
             
             <a href="#" className="forgot-password">Forgot password</a>
             
-            <button type="submit" className="submit-btn">Login</button>
+            <button onClick={() => navigate('/dashBoard')} type="submit" className="submit-btn">Login</button>
             
             <button className="google-btn">
                   <svg viewBox="0 0 24 24" className="google-icon">

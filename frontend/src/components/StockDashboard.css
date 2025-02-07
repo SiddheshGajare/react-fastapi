@@ -132,12 +132,15 @@ border-radius: 0.75rem;
 }
 }
 .main-content{
-  width: 85vw;;
-  display: flex
-; overflow-y: scroll; /* Enables only vertical scroll */
-overflow-x: hidden;
-  flex-direction: column;
-  height: 100vh;
+  height: 100vh !important;
+  width: 85vw !important;
+  display: flex !important;
+  overflow-y: scroll !important; /* Enables only vertical scroll */
+  overflow-x: hidden !important;
+  flex-direction: column !important;
+  background: #F6F7F9 !important;
+  border: none !important;
+  
 }
 .search-bar{
  

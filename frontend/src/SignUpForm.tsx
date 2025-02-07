@@ -2,7 +2,7 @@ import React from 'react';
 import { Facebook, Twitter } from 'lucide-react';
 import './SignUp.css';
 import investmentImage from './assets/photo/potosss.jpg';
-
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
   const [formData, setFormData] = React.useState({
@@ -16,10 +16,11 @@ const SignupPage = () => {
     },
     gender: ''
   });
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    navigate('/about')
   };
 
   const handleInputChange = (e) => {
@@ -43,7 +44,7 @@ const SignupPage = () => {
 
   return (
     <div className="signup-container">
-      <div className="main-content">
+      <div className="main-content1">
         {/* Left side content */}
         <div className="left-content">
           <h1>Trade Your Plan Not Emotion!</h1>

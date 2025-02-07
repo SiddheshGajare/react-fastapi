@@ -22,7 +22,7 @@ body {
 }
 
 /* Main content */
-.main-content {
+.main-content2 {
     display: flex;
     background: white;
     border-radius: 10px;
@@ -148,7 +148,7 @@ body {
 }
 
 
-.main-content {
+.main-content2{
   width: 100%;
   max-width: 1900px;
   background-color: white;
@@ -335,7 +335,7 @@ body {
 
 
 @media (max-width: 768px) {
-  .main-content {
+  .main-content2 {
     flex-direction: column;
   }
 

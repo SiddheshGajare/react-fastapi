@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');*/
 
 * {
   margin: 0;
@@ -29,7 +29,7 @@ body {
 }
 
 
-.main-content {
+.main-content1 {
   width: 100%;
   max-width: 1900px;
   background-color: white;
