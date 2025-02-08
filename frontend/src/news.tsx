@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Bell, Mail, ChevronDown, Home, LayoutDashboard, Wallet, Newspaper, BarChart2, Users, Settings, Phone, ChevronUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import './components/StockDashboard.css';
 
+import './newImpact.css'
 function NewspaperSec() {
   const navigate = useNavigate();
   const [ticker, setTicker] = useState("");
@@ -111,21 +111,7 @@ function NewspaperSec() {
         <div className="main-content">
           {/* Header */}
           <div className="search-bar">
-            <div className='search'>
-              <input
-                type="text"
-                value={ticker.replace(".NS", "")}
-                onChange={(e) => setTicker(e.target.value)}
-                onBlur={handleBlur}
-                placeholder="Search for various stocks..."
-                className="search-input"
-              />
-              <button onClick={fetchNewsImpact} className="search-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
-              </button>
-            </div>
+            
             <div className="header-actions">
               <Mail />
               <Bell />
@@ -154,9 +140,9 @@ function NewspaperSec() {
                 <h3>Predicted News Impact: {impact}%</h3>
                 <ul>
                   {reasons.map((r, index) => (
-                    <li key={index}>
+                    <div className="impact-list" key={index}>
                       <strong>[{r.sentiment}]</strong> {r.reason}
-                    </li>
+                    </div>
                   ))}
                 </ul>
               </div>
