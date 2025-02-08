@@ -81,7 +81,7 @@ function StockDashboard() {
       setTicker(ticker + ".NS"); // Save with ".NS" on blur
     }
   };
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="dashboard-container">
       <div className="dashboard-layout">
@@ -119,16 +119,28 @@ function StockDashboard() {
                   <span>News</span>
                 </div>
 
-                <div className="nav-item">
-                  <BarChart2 className="nav-icon" />
-                  <span>Stock & fund</span>
-                  <ChevronDown className="ml-auto" />
-                </div>
-                <div className="nav-sub-item">Stock</div>
-                <div className="nav-sub-item">Cryptocurrency</div>
-                <div className="nav-sub-item">Mutual Fund</div>
-                <div className="nav-sub-item">Gold</div>
+                <div>
+                      <div 
+                        className="nav-item"
+                        onClick={() => setIsOpen(!isOpen)}
+                      >
+                        <BarChart2 className="nav-icon" />
+                        <span>Stock & fund</span>
+                        <ChevronDown className={`ml-auto transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                      </div>
+                      
+                      {isOpen && (
+                        <>
+                          <div className="nav-sub-item">Stock</div>
+                          <div className="nav-sub-item">Cryptocurrency</div>
+                          <div className="nav-sub-item">Mutual Fund</div>
+                          <div className="nav-sub-item">Gold</div>
+                        </>
+                      )}
+                    </div>
               </div>
+              
+            </nav>
               <div className='line'></div>
               <div className='nav-third-container'>
                 <div className="nav-item">
@@ -144,7 +156,7 @@ function StockDashboard() {
                   <span>Contact us</span>
                 </div>
               </div>
-            </nav>
+
           </div>
         </div>
 

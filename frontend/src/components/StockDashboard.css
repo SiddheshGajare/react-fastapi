@@ -22,18 +22,20 @@
 
 /* Updated Sidebar Styles with Correct Class Names */
 .sidebar {
-width: 280px;
-background: #FFFFFF;
-height: 100vh;
-padding: 1.5rem;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
+  width: 280px;
+  background: #FFFFFF;
+  height: 100vh;
+  padding: 1.5rem;
+  display: flex
+;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 /* Logo and Investment Card Section */
 .nav-first-container {
-margin-bottom: 2rem;
+  height: 235px;
+  margin-bottom: 2rem;
 }
 
 .logo-container {
@@ -52,8 +54,7 @@ padding: 1.5rem;
 margin-bottom: 2rem;
 }
 .nev-bar{
-top: -100px;
-position: relative;
+  height: 500px;
 }
 /* Main Navigation Section */
 .nav-bar {
@@ -90,7 +91,9 @@ color: #6B7280;
 cursor: pointer;
 transition: color 0.2s ease;
 }
-
+.nev-2ndcontainer{
+  height: 435px;
+}
 /* Bottom Navigation Section */
 .nav-third-container {
 margin-top: auto;
