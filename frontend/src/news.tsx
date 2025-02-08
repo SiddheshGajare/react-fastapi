@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Bell, Mail, ChevronDown, Home, LayoutDashboard, Wallet, Newspaper, BarChart2, Users, Settings, Phone, ChevronUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
+import topUpImage from './assets/photo/topUp.png';
 import './newImpact.css'
 function NewspaperSec() {
   const navigate = useNavigate();
@@ -111,7 +111,7 @@ function NewspaperSec() {
         <div className="main-content">
           {/* Header */}
           <div className="search-bar">
-            
+          <img src={topUpImage} alt="Search Icon" className="search-image" />
             <div className="header-actions">
               <Mail />
               <Bell />
