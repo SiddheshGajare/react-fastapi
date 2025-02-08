@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timedelta
 import requests
 from transformers import pipeline
+from FinBert import get_stock_news_impact  # Import FinBert function
 
 # ✅ NewsData.io API Key
 API_KEY = "pub_6830389454d2be3370f4b9fd5786223c9d6ad"
@@ -117,3 +118,9 @@ def predict_stock(data: StockRequest):
         "sentiment_score": sentiment_score,
         "adjustment_factor": sentiment_score * 0.1
     }
+
+# ✅ New API for FinBert News Impact
+@app.get("/news-impact/{company}")
+def news_impact(company: str):
+    impact, reasons = get_stock_news_impact(company)
+    return {"impact": impact, "reasons": reasons}
