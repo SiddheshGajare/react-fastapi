@@ -1,22 +1,11 @@
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, ResponsiveContainer, Legend } from "recharts";
-import { Bell, Mail, ChevronDown, Home, LayoutDashboard, Wallet, Newspaper, BarChart2, Users, Settings, Phone } from 'lucide-react';
+import { Bell, Mail, ChevronDown, Home, LayoutDashboard, Wallet, Newspaper, BarChart2, Users, Settings, Phone, ChevronUp } from 'lucide-react';
 import './StockDashboard.css';
-
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 const date = new Date();
 const formattedDate = date.toLocaleDateString('en-CA', { month: '2-digit', day: '2-digit',year: 'numeric' });
 
-// Renamed from stockData to sampleChartData
-const sampleChartData = [
-  { month: '15', value: 80 },
-  { month: '16', value: 180 },
-  { month: '17', value: 90 },
-  { month: '18', value: 270 },
-  { month: '19', value: 150 },
-  { month: '20', value: 260 },
-  { month: '21', value: 100 },
-  { month: '22', value: 200 },
-];
 
 const portfolioStocks = [
   { name: 'Apple', logo: '🍎', value: '$310.40', return: '-1.10%', trend: 'down' },
@@ -42,7 +31,7 @@ interface StockDataPoint {
 function StockDashboard() {
   const [ticker, setTicker] = useState("");
   const [stockData, setStockData] = useState<StockDataPoint[]>([]);
-
+  const navigate = useNavigate();
   const fetchPredictions = async () => {
     const response = await fetch("http://localhost:8000/predict", {
       method: "POST",
@@ -106,7 +95,7 @@ function StockDashboard() {
                   <Home className="nav-icon" />
                   <span>Home</span>
                 </div>
-                <div className="nav-item">
+                <div className="nav-item" onClick={() => navigate('/dashBoard')}>
                   <LayoutDashboard className="nav-icon" />
                   <span>Dashboard</span>
                 </div>
@@ -114,7 +103,7 @@ function StockDashboard() {
                   <Wallet className="nav-icon" />
                   <span>Wallet</span>
                 </div>
-                <div className="nav-item">
+                <div className="nav-item"  onClick={() => navigate('/news')}>
                   <Newspaper className="nav-icon" />
                   <span>News</span>
                 </div>
@@ -126,7 +115,9 @@ function StockDashboard() {
                       >
                         <BarChart2 className="nav-icon" />
                         <span>Stock & fund</span>
-                        <ChevronDown className={`ml-auto transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                        {(!isOpen) ?
+                        <ChevronDown className={`ml-auto transition-transform duration-200 ${isOpen ? 'rotate-180' : 'rotate-45'}`} /> :
+                        <ChevronUp className={`ml-auto transition-transform duration-200 ${isOpen ? 'rotate-180' : 'rotate-45'}`} />}
                       </div>
                       
                       {isOpen && (
