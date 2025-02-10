@@ -1,0 +1,234 @@
+body {
+    overflow-x: hidden;
+    margin: 0;  /* Ensure no default margins cause overflow */
+}
+.HomePage-mainContainer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    background: #F6F7F9;
+    width: 100vw;
+    height: 120vh;
+}
+
+.HomePage-container1 {
+    position: absolute;
+    position: relative;
+    top: 0px;  /* Fixed missing unit */
+    height: 100vh;
+    width: 100vw;
+    background: #F9FAFB;
+    color: black;
+}
+.container1-left{
+    position : absolute;
+    position: relative;
+    left: 0px;
+    height: 100vh;
+    width: 50vw;
+    background: #FFFFFF
+}
+.HomePage-logo-container{
+    height: 100px;
+    display: flex
+;
+    flex-direction: row;
+    align-items: flex-end;
+    /* margin-right: 173px; */
+    padding-left: 100px;
+    
+    
+}
+.nav-icon {
+    font-size: 32px; /* Increase icon size */
+    width: 60px;
+    height: 60px;
+}
+  
+.logo-text {
+    font-size: 30px; /* Increase text size */
+    font-weight: bold;
+    font-family: "Calibri", sans-serif; 
+}
+.left-textline1{
+    position: absolute;
+    left: 10vw;
+    top:25vh;
+    font-size: 70px; /* Increase font size */
+    font-weight: bold;
+    color: #333; /* Dark gray */
+    font-family: "Calibri", sans-serif; 
+}
+.left-textline2{
+    position: absolute;
+    left: 10vw;
+    top:32vh;
+    font-size: 70px; /* Increase font size */
+    font-weight: bold;
+    color: #333; /* Dark gray */
+    font-family: "Calibri", sans-serif; 
+}  
+.left-textline3{
+    top:39vh;
+    position: absolute;
+    left: 10vw;
+    font-size: 70px; /* Increase font size */
+    font-weight: bold;
+    color: #333; /* Dark gray */
+    font-family: "Calibri", sans-serif; 
+}  
+.left-textline4{
+    top:46vh;
+    position: absolute;
+    left: 10vw;
+    font-size: 70px; /* Increase font size */
+    font-weight: bold;
+    color: #333; /* Dark gray */
+    font-family: "Calibri", sans-serif; 
+}  
+.left-textline5{
+    top:53vh;
+    position: absolute;
+    left: 10vw;
+    font-size: 70px; /* Increase font size */
+    font-weight: bold;
+    color: #333; /* Dark gray */
+    font-family: "Calibri", sans-serif; 
+}  
+.left-textline6{
+    top:60vh;
+    position: absolute;
+    left: 10vw;
+    font-size: 70px; /* Increase font size */
+    font-weight: bold;
+    color: #333; /* Dark gray */
+    font-family: "Calibri", sans-serif; 
+}  
+.left-textline7{
+    top:71vh;
+    font-size: 30px; 
+    left: 10vw;
+    font-weight: bold;
+    position: absolute;
+    color: #8C8C8C;
+    font-family: "Calibri", sans-serif; 
+}
+.left-textline8{
+    top:74vh;
+    position: absolute;
+    left: 10vw;
+    font-weight: bold;
+    font-size: 30px; 
+    color: #8C8C8C;
+    font-family: "Calibri", sans-serif; 
+}
+.container1-center{
+    display: flex;
+        position: absolute;
+        width: 20vw;
+        height: 25vh;
+        box-shadow: 0 80px 399px rgba(249, 232, 232, 0.1);
+        background: white;
+        border-radius: 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        top: 47.5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+}
+.center1{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+.center2{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+.id1{
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 4.5vw;
+    padding-right: 5vw;
+}
+.image-rel{
+    padding-right: 4vw;
+    padding-left: 1vw;
+    padding-bottom: 5vw;
+   
+}
+.centre2{
+    
+    display: flex;
+    
+}
+.id2{
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    bottom:4vw;
+    left :1vw;
+}
+.id4{
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute;
+    bottom:4.05vw;
+    left :4.40vw;
+    color: #8C8C8C;
+
+}
+.id3{
+    position: absolute
+    ;
+    top:180px;
+    left:7vw;
+    border: 2px solid rgba(252, 0, 0, 0.1);
+    box-shadow: 0 80px 399px rgba(249, 232, 232, 0.1);
+    border-radius: 1rem;
+    padding: 10px;
+
+}
+.container1-right{
+    position : absolute;
+    z-index: 1;
+    top: 0px;
+    left: 50vw;
+    height: 100vh;
+    width: 50vw;
+    background: #F6F7F9;
+
+}
+.video-Container{
+    position :absolute;
+    top:15vh;
+    width: 600px;
+    height: auto;
+    right: 100px;
+    border-radius: 40px;
+    overflow: hidden;
+}
+
+.Login-Button{
+    position: absolute;
+    right: 110px;
+    font-weight: bold;
+    font-family: "Calibri", sans-serif; 
+    font-size: 24px; 
+    width: 150px;
+    top:40px;
+    border-radius: 20px;
+
+    
+}
+.HomePage-container2 {
+    position: absolute;
+    top : 100vh;  /* Fixed missing unit */
+    height: 20vh;
+    width: 100vw;  /* Added missing semicolon */
+    background: black;
+}
