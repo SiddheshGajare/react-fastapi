@@ -3,7 +3,7 @@ import { Bell, Mail, ChevronDown, Home, LayoutDashboard, Wallet, Newspaper, BarC
 import { useNavigate } from 'react-router-dom';
 import topUpImage from './assets/photo/topUp.png';
 import './newImpact.css'
-function NewspaperSec() {
+function SeggetionSec() {
   const navigate = useNavigate();
   const [ticker, setTicker] = useState("");
   const [impact, setImpact] = useState<number | null>(null);
@@ -124,30 +124,7 @@ function NewspaperSec() {
           </div>
 
           {/* News Sentiment Impact Section */}
-          <div className="news-impact-section">
-            <h2>News Sentiment Impact</h2>
-            <input 
-              type="text" 
-              value={ticker} 
-              onChange={(e) => setTicker(e.target.value)} 
-              placeholder="Enter stock ticker..."
-              className="search-input"
-            />
-            <button onClick={fetchNewsImpact} className="search-button">Check News Impact</button>
-            
-            {impact !== null && (
-              <div className="impact-results">
-                <h3>Predicted News Impact: {impact}%</h3>
-                <ul>
-                  {reasons.map((r, index) => (
-                    <div className="impact-list" key={index}>
-                      <strong>[{r.sentiment}]</strong> {r.reason}
-                    </div>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+          
           
         </div>
       </div>
@@ -155,4 +132,4 @@ function NewspaperSec() {
   );
 }
 
-export default NewspaperSec;
+export default SeggetionSec;

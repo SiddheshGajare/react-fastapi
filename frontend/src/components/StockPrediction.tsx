@@ -91,7 +91,7 @@ function StockDashboard() {
           <div className='nev-bar'>
             <nav>
               <div className='nev-2ndcontainer'>
-                <div className="nav-item">
+                <div className="nav-item" onClick={() => navigate('/suggetion')}>
                   <Home className="nav-icon" />
                   <span>Home</span>
                 </div>
