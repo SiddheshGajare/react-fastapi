@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from pydantic import BaseModel
 import yfinance as yf
@@ -11,6 +12,15 @@ from datetime import datetime, timedelta
 import requests
 from transformers import pipeline
 from FinBert import get_stock_news_impact  # Import FinBert function
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(base_dir, "EQUITY_L.csv")
+
+if not os.path.exists(csv_path):
+    raise FileNotFoundError(f"Error: CSV file not found at {csv_path}")
+
+company_df = pd.read_csv(csv_path)
+symbol_to_company = dict(zip(company_df["SYMBOL"], company_df["NAME OF COMPANY"]))
 
 # ✅ NewsData.io API Key
 API_KEY = "pub_6830389454d2be3370f4b9fd5786223c9d6ad"
@@ -122,5 +132,5 @@ def predict_stock(data: StockRequest):
 # ✅ New API for FinBert News Impact
 @app.get("/news-impact/{company}")
 def news_impact(company: str):
-    impact, reasons = get_stock_news_impact(company)
+    impact, reasons = get_stock_news_impact(symbol_to_company.get(company.upper(), company))
     return {"impact": impact, "reasons": reasons}
