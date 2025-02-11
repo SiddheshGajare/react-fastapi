@@ -1,162 +1,223 @@
+/* Global Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 body {
     overflow-x: hidden;
-    margin: 0;  /* Ensure no default margins cause overflow */
+    margin: 0;
+    background: #F6F7F9;
 }
+
+/* Fade-in and Slide-up Animation */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Staggered Text Animation */
+@keyframes textFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Home Page Main Container */
 .HomePage-mainContainer {
     position: relative;
     z-index: 1;
     display: flex;
-    background: #F6F7F9;
     width: 100vw;
     height: 120vh;
 }
-
-.HomePage-container1 {
+.search-button{
     position: absolute;
+    z-index: 2;
+    left: 65vw;
+    top:5vh;
+    height: 45px;
+    border-radius: 20px;
+    width:150px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+
+}
+.search-input{
+    padding: 20px;
+    width: 40vw;
+    position: absolute;
+    z-index: 2;
+    height: 40px;
+    transition: all 0.2s ease;
+    left:20vw;
+    top:5vh;
+    border-radius: 20px;
+    background: white;
+}
+.search-input:focus {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+  
+/* First Section */
+.HomePage-container1 {
+    animation: fadeSlideUp 1s ease-out;
     position: relative;
-    top: 0px;  /* Fixed missing unit */
+    top: 0;
     height: 100vh;
     width: 100vw;
     background: #F9FAFB;
     color: black;
+    z-index: 1;
 }
-.container1-left{
-    position : absolute;
-    position: relative;
-    left: 0px;
+
+/* Left Container */
+.container1-left {
+    position: absolute;
+    left: 0;
     height: 100vh;
     width: 50vw;
-    background: #FFFFFF
+    background: #FFFFFF;
 }
-.HomePage-logo-container{
+
+/* Logo Section */
+.HomePage-logo-container {
     height: 100px;
-    display: flex
-;
+    display: flex;
     flex-direction: row;
     align-items: flex-end;
-    /* margin-right: 173px; */
     padding-left: 100px;
-    
-    
 }
+
 .nav-icon {
-    font-size: 32px; /* Increase icon size */
+    font-size: 32px;
     width: 60px;
     height: 60px;
 }
-  
+
 .logo-text {
-    font-size: 30px; /* Increase text size */
+    font-size: 30px;
     font-weight: bold;
-    font-family: "Calibri", sans-serif; 
+    font-family: "Calibri", sans-serif;
 }
-.left-textline1{
+
+/* Text Lines (with Staggered Animation) */
+.left-textline1 { animation: textFadeIn 1s ease-out 0.2s forwards; opacity: 0; }
+.left-textline2 { animation: textFadeIn 1s ease-out 0.4s forwards; opacity: 0; }
+.left-textline3 { animation: textFadeIn 1s ease-out 0.6s forwards; opacity: 0; }
+.left-textline4 { animation: textFadeIn 1s ease-out 0.8s forwards; opacity: 0; }
+.left-textline5 { animation: textFadeIn 1s ease-out 1s forwards; opacity: 0; }
+.left-textline6 { animation: textFadeIn 1s ease-out 1.2s forwards; opacity: 0; }
+.left-textline7 { animation: textFadeIn 1s ease-out 1.4s forwards; opacity: 0; }
+.left-textline8 { animation: textFadeIn 1s ease-out 1.6s forwards; opacity: 0; }
+
+/* Positioning for Text */
+.left-textline1, .left-textline2, .left-textline3, .left-textline4,
+.left-textline5, .left-textline6 {
     position: absolute;
     left: 10vw;
-    top:25vh;
-    font-size: 70px; /* Increase font size */
+    font-size: 70px;
     font-weight: bold;
-    color: #333; /* Dark gray */
-    font-family: "Calibri", sans-serif; 
+    color: #333;
+    font-family: "Calibri", sans-serif;
 }
-.left-textline2{
+
+.left-textline1 { top: 25vh; }
+.left-textline2 { top: 32vh; }
+.left-textline3 { top: 39vh; }
+.left-textline4 { top: 46vh; }
+.left-textline5 { top: 53vh; }
+.left-textline6 { top: 60vh; }
+
+.left-textline7, .left-textline8 {
     position: absolute;
     left: 10vw;
-    top:32vh;
-    font-size: 70px; /* Increase font size */
     font-weight: bold;
-    color: #333; /* Dark gray */
-    font-family: "Calibri", sans-serif; 
-}  
-.left-textline3{
-    top:39vh;
-    position: absolute;
-    left: 10vw;
-    font-size: 70px; /* Increase font size */
-    font-weight: bold;
-    color: #333; /* Dark gray */
-    font-family: "Calibri", sans-serif; 
-}  
-.left-textline4{
-    top:46vh;
-    position: absolute;
-    left: 10vw;
-    font-size: 70px; /* Increase font size */
-    font-weight: bold;
-    color: #333; /* Dark gray */
-    font-family: "Calibri", sans-serif; 
-}  
-.left-textline5{
-    top:53vh;
-    position: absolute;
-    left: 10vw;
-    font-size: 70px; /* Increase font size */
-    font-weight: bold;
-    color: #333; /* Dark gray */
-    font-family: "Calibri", sans-serif; 
-}  
-.left-textline6{
-    top:60vh;
-    position: absolute;
-    left: 10vw;
-    font-size: 70px; /* Increase font size */
-    font-weight: bold;
-    color: #333; /* Dark gray */
-    font-family: "Calibri", sans-serif; 
-}  
-.left-textline7{
-    top:71vh;
-    font-size: 30px; 
-    left: 10vw;
-    font-weight: bold;
-    position: absolute;
+    font-size: 30px;
     color: #8C8C8C;
-    font-family: "Calibri", sans-serif; 
+    font-family: "Calibri", sans-serif;
 }
-.left-textline8{
-    top:74vh;
-    position: absolute;
-    left: 10vw;
-    font-weight: bold;
-    font-size: 30px; 
-    color: #8C8C8C;
-    font-family: "Calibri", sans-serif; 
-}
-.container1-center{
+
+.left-textline7 { top: 71vh; }
+.left-textline8 { top: 74vh; }
+
+/* Center Container */
+.container1-center {
     display: flex;
-        position: absolute;
-        width: 20vw;
-        height: 25vh;
-        box-shadow: 0 80px 399px rgba(249, 232, 232, 0.1);
-        background: white;
-        border-radius: 1rem;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        top: 47.5%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 2;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
+    position: absolute;
+    overflow: hidden !important;
+    width: 20vw;
+    height: 25vh;
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    top: 47.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover effect for center box */
+.container1-center:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Video Animation */
+.video-Container {
+    position: absolute;
+    top: 15vh;
+    width: 600px;
+    height: auto;
+    right: 100px;
+    border-radius: 40px;
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fadeSlideUp 1s ease-out 2s forwards;
 }
 .center1{
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    overflow: hidden;
 }
 .center2{
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    overflow-y: hidden;
 }
 .id1{
+    position: absolute;
+    top:55px;
     font-size: 20px;
     font-weight: bold;
     padding-bottom: 4.5vw;
-    padding-right: 5vw;
+    padding-right: 0vw;
 }
 .image-rel{
-    padding-right: 4vw;
+    position: absolute;
+    left: 0px;
+    top:25px;
+    padding-right: 0vw;
     padding-left: 1vw;
     padding-bottom: 5vw;
    
@@ -193,42 +254,45 @@ body {
     padding: 10px;
 
 }
-.container1-right{
-    position : absolute;
+
+/* Login Button */
+.Login-Button {
+    position: absolute;
+    right: 110px;
+    font-weight: bold;
+    font-family: "Calibri", sans-serif;
+    font-size: 24px;
+    width: 150px;
+    top: 40px;
+    border-radius: 20px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+/* Button Hover Effect */
+.Login-Button:hover {
+    background: #333;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Right Container */
+.container1-right {
+    position: absolute;
     z-index: 1;
-    top: 0px;
+    top: 0;
     left: 50vw;
     height: 100vh;
     width: 50vw;
     background: #F6F7F9;
-
-}
-.video-Container{
-    position :absolute;
-    top:15vh;
-    width: 600px;
-    height: auto;
-    right: 100px;
-    border-radius: 40px;
-    overflow: hidden;
 }
 
-.Login-Button{
-    position: absolute;
-    right: 110px;
-    font-weight: bold;
-    font-family: "Calibri", sans-serif; 
-    font-size: 24px; 
-    width: 150px;
-    top:40px;
-    border-radius: 20px;
-
-    
-}
+/* Footer */
 .HomePage-container2 {
     position: absolute;
-    top : 100vh;  /* Fixed missing unit */
+    top: 100vh;
     height: 20vh;
-    width: 100vw;  /* Added missing semicolon */
+    width: 100vw;
     background: black;
+    z-index: 1;
 }

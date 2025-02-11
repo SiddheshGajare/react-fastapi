@@ -6,6 +6,14 @@ function HomePage() {
 
     return(
         <div className='HomePage-mainContainer'>
+            <div>
+            <input
+                type="text"
+                placeholder="Search for various stocks........"
+                className="search-input"
+              />
+              <button className='search-button'>Search</button>
+            </div>
             <div className='HomePage-container1'>
                 <div className='container1-left'>
                     <div className="HomePage-logo-container">
