@@ -1,10 +1,4 @@
-/* Global Reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
+
 
 body {
     overflow-x: hidden;
@@ -38,13 +32,14 @@ body {
 
 /* Home Page Main Container */
 .HomePage-mainContainer {
+    margin-top: 20vh;
     position: relative;
     z-index: 1;
     display: flex;
     width: 100vw;
     height: 120vh;
 }
-.search-button{
+.home-search-button{
     position: absolute;
     z-index: 2;
     left: 65vw;
@@ -56,21 +51,21 @@ body {
     transition: all 0.2s ease;
 
 }
-.search-input{
+.home-search-input{
     padding: 20px;
     width: 40vw;
     position: absolute;
     z-index: 2;
-    height: 40px;
+    height: 10px;
     transition: all 0.2s ease;
     left:20vw;
     top:5vh;
     border-radius: 20px;
     background: white;
 }
-.search-input:focus {
+.home-search-input:focus {
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-  }
+}
   
 /* First Section */
 .HomePage-container1 {
@@ -102,13 +97,13 @@ body {
     padding-left: 100px;
 }
 
-.nav-icon {
+.nav-icon1 {
     font-size: 32px;
     width: 60px;
     height: 60px;
 }
 
-.logo-text {
+.logo-text1{
     font-size: 30px;
     font-weight: bold;
     font-family: "Calibri", sans-serif;

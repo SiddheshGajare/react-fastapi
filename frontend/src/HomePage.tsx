@@ -1,24 +1,25 @@
 import {BarChart2} from 'lucide-react'
 import './HomePage.css';
 import stockVideo from "./assets/video/Pinterest media.mp4";
-import imageLogo from "./assets/photo/reliance.logo.webp"
+import imageLogo from "./assets/photo/reliance.logo.webp";
+import { BrowserRouter as  Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 function HomePage() {
-
+    const navigate = useNavigate();
     return(
         <div className='HomePage-mainContainer'>
             <div>
             <input
                 type="text"
                 placeholder="Search for various stocks........"
-                className="search-input"
+                className="home-search-input"
               />
-              <button className='search-button'>Search</button>
+              <button className='home-search-button'>Search</button>
             </div>
             <div className='HomePage-container1'>
                 <div className='container1-left'>
                     <div className="HomePage-logo-container">
-                        <BarChart2 className="nav-icon" />
-                        <span className="logo-text">GoStock</span>
+                        <BarChart2 className="nav-icon1" />
+                        <span className="logo-text1">GoStock</span>
                      </div>
                      <div className='left-textline1'>Make Better</div>
                      <div className='left-textline2'>Investment</div>
@@ -44,7 +45,7 @@ function HomePage() {
                 </div>
 
                 <div className='container1-right'>
-                    <button className='Login-Button'>
+                    <button className='Login-Button' onClick={() => navigate('/login')}>
                     Log in
                     </button>
                     <div className='video-Container'>

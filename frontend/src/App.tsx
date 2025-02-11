@@ -7,18 +7,19 @@ import HomePage from "./HomePage.tsx"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   return (
-    <div className="p-6">
-      <HomePage/>
-    </div>
-    /*<Router>
+    // <div className="p-6">
+    //   <HomePage/>
+    // </div>
+    <Router>
       <Routes>
         <Route path="/about" element={<SignUpForm />} />
-        <Route path="/" element={<SignInPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<SignInPage />} />
         <Route path="/dashBoard" element={<StockPrediction />} />
         <Route path="/news" element={<NewspaperSec />} />
         <Route path="/suggetion" element={<SeggetionSec />} />
       </Routes>
-    </Router>*/
+    </Router>
   );
 }
 
