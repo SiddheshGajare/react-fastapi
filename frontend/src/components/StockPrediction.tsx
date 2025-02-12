@@ -23,27 +23,38 @@ interface StockDataPoint {
 
 const StockCards = () => {
   const [stocks, setStocks] = useState<{ name: string; price: number | string }[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:8000/stock-prices")
       .then((response) => response.json())
-      .then((data) => setStocks(data.stocks))
-      .catch((error) => console.error("Error fetching stock prices:", error));
+      .then((data) => {
+        setStocks(data.stocks);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching stock prices:", error);
+        setLoading(false);
+      });
   }, []);
 
   return (
     <div className="stock-cards">
-      {stocks.map((stock) => (
-        <div key={stock.name} className="stock-card">
-          <div className="stock-info">
-            <span>{stock.name}</span>
+      {loading ? (
+        <p>Loading stocks...</p>
+      ) : (
+        stocks.map((stock) => (
+          <div key={stock.name} className="stock-card">
+            <div className="stock-info">
+              <span>{stock.name}</span>
+            </div>
+            <div className="stock-values">
+              <div>Current Price</div>
+              <div className="stock-amount">₹{stock.price}</div>
+            </div>
           </div>
-          <div className="stock-values">
-            <div>Current Price</div>
-            <div className="stock-amount">₹{stock.price}</div>
-          </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };
