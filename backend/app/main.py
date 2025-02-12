@@ -14,17 +14,9 @@ from transformers import pipeline
 from pandas.tseries.offsets import BDay
 from typing import List, Dict, Optional
 
-# Base directory and CSV path setup
-base_dir = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(base_dir, "EQUITY_L.csv")
 
-# Check if CSV file exists
-if not os.path.exists(csv_path):
-    raise FileNotFoundError(f"Error: CSV file not found at {csv_path}")
 
-# Load company data
-company_df = pd.read_csv(csv_path)
-symbol_to_company = dict(zip(company_df["SYMBOL"], company_df["NAME OF COMPANY"]))
+
 
 # API Keys and Configuration
 API_KEY = "pub_6830389454d2be3370f4b9fd5786223c9d6ad"
@@ -253,23 +245,27 @@ async def get_stock_prices():
 @app.get("/news-impact/{company}")
 async def news_impact(company: str):
     """
-    Get news sentiment impact for a company
+    Get news sentiment impact for a company based on its name.
     """
     try:
-        company_name = symbol_to_company.get(company.upper(), company)
-        news_list = fetch_news(company_name)
+        # Fetch news using the company name
+        news_list = fetch_news(company)
+
+        # Analyze sentiment of the fetched news articles
         impact = analyze_sentiment(news_list)
-        
+
         # Extract key phrases or sentences as reasons
-        reasons = [news[:200] + "..." for news in news_list[:3]]
-        
+        reasons = [news[:200] + "..." for news in news_list[:3]] if news_list else ["No relevant news found."]
+
         return {
+            "company": company,
             "impact": float(impact),
             "reasons": reasons
         }
-        
+
     except Exception as e:
         return {"error": f"Failed to analyze news impact: {str(e)}"}
+
 
 if __name__ == "__main__":
     import uvicorn

@@ -12,19 +12,22 @@ function NewspaperSec() {
 
   // ✅ Function to fetch news impact from FastAPI
   const fetchNewsImpact = async () => {
-    if (!ticker) return;
+    if (!ticker.trim()) return;
     try {
-      const response = await fetch(`http://localhost:8000/news-impact/${ticker}`);
+      const response = await fetch(`http://localhost:8000/news-impact/${encodeURIComponent(ticker)}`);
       const data = await response.json();
+  
       setImpact(data.impact);
-      setReasons(data.reasons.map((r: [number, string]) => ({
-        sentiment: r[0] > 0 ? "Positive" : r[0] < 0 ? "Negative" : "Neutral",
-        reason: r[1]
+      setReasons(data.reasons.map((reasonText: string) => ({
+        sentiment: reasonText.includes("Positive") ? "Positive" :
+                   reasonText.includes("Negative") ? "Negative" : "Neutral",
+        reason: reasonText
       })));
     } catch (error) {
       console.error("Error fetching news impact:", error);
     }
   };
+  
 
   const handleBlur = () => {
     if (ticker && !ticker.endsWith(".NS")) {
