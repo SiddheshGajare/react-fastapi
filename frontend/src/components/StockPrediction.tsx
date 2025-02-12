@@ -63,7 +63,10 @@ function StockDashboard() {
   const [ticker, setTicker] = useState("");
   const [stockData, setStockData] = useState<StockDataPoint[]>([]);
   const navigate = useNavigate();
+  const [loadingChart, setLoadingChart] = useState(false);
+
   const fetchPredictions = async () => {
+    setLoadingChart(true);
     const response = await fetch("http://localhost:8000/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -71,11 +74,12 @@ function StockDashboard() {
         ticker,
         start_date: "2020-01-01",
         end_date: formattedDate,
-        forecast_out: 7
+        forecast_out: 7,
       }),
     });
     const data = await response.json();
     setStockData(data.data);
+    setLoadingChart(false);
   };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -88,7 +92,7 @@ function StockDashboard() {
       return (
         <div className="custom-tooltip bg-white p-4 rounded shadow">
           <p className="date">{new Date(label).toLocaleDateString()}</p>
-          <p className="price">${value?.toFixed(2)}</p>
+          <p className="price">₹{value?.toFixed(2)}</p>
           <p className="type">{type}</p>
         </div>
       );
@@ -241,7 +245,9 @@ function StockDashboard() {
                 <button className="time-filter">5 Year</button>
                 <button className="time-filter">All</button>
               </div>
-              {stockData.length > 0 && (
+              {loadingChart ? (
+            <p>Loading chart...</p>
+          ) : stockData.length > 0 ? (
     <ResponsiveContainer width="100%" height={400}>
       <LineChart 
         data={stockData.map(item => ({
@@ -261,7 +267,7 @@ function StockDashboard() {
         />
         <YAxis
           domain={['auto', 'auto']}
-          tickFormatter={(value) => `$${value.toFixed(2)}`}
+          tickFormatter={(value) => `₹${value.toFixed(2)}`}
         />
         <Tooltip content={<CustomTooltip />} />
         <Legend />
@@ -291,7 +297,9 @@ function StockDashboard() {
           tickFormatter={(date) => new Date(date).toLocaleDateString()}
         />
       </LineChart>
-    </ResponsiveContainer>
+    </ResponsiveContainer>)
+  : (
+    <p>No data available</p>
   )}
             </div>
 
