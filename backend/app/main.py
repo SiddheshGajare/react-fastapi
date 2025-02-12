@@ -134,3 +134,26 @@ def predict_stock(data: StockRequest):
 def news_impact(company: str):
     impact, reasons = get_stock_news_impact(symbol_to_company.get(company.upper(), company))
     return {"impact": impact, "reasons": reasons}
+
+@app.get("/stock-prices")
+def get_stock_prices():
+    stock_tickers = {
+        "TCS": "TCS.NS",
+        "Tata Steel": "TATASTEEL.NS",
+        "Reliance": "RELIANCE.NS",
+        "ICICI Bank": "ICICIBANK.NS"
+    }
+    
+    stock_prices = []
+    
+    for stock_name, ticker in stock_tickers.items():
+        stock = yf.Ticker(ticker)
+        hist = stock.history(period="1d")  # Fetch the latest price
+        
+        if not hist.empty:
+            stock_price = hist["Close"].iloc[-1]  # Get the latest closing price
+            stock_prices.append({"name": stock_name, "price": stock_price})
+        else:
+            stock_prices.append({"name": stock_name, "price": "N/A"})
+    
+    return {"stocks": stock_prices}

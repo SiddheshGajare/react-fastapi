@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Brush, ResponsiveContainer, Legend } from "recharts";
 import { Bell, Mail, ChevronDown, Home, LayoutDashboard, Wallet, Newspaper, BarChart2, Users, Settings, Phone, ChevronUp } from 'lucide-react';
 import './StockDashboard.css';
@@ -6,13 +6,6 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 const date = new Date();
 const formattedDate = date.toLocaleDateString('en-CA', { month: '2-digit', day: '2-digit',year: 'numeric' });
 
-
-const portfolioStocks = [
-  { name: 'Apple', logo: '🍎', value: '$310.40', return: '-1.10%', trend: 'down' },
-  { name: 'Meta', logo: 'Ⓜ️', value: '$140.45', return: '-0.10%', trend: 'down' },
-  { name: 'Microsoft', logo: '⊞', value: '$240.98', return: '+0.85%', trend: 'up' },
-  { name: 'Google', logo: 'G', value: '$99.12', return: '-0.04%', trend: 'down' },
-];
 
 const watchlist = [
   { name: 'SPOT', company: 'Spotify', value: '$310.40', change: '-1.10%' },
@@ -27,6 +20,33 @@ interface StockDataPoint {
   price: number;
   type: 'historical' | 'prediction';
 }
+
+const StockCards = () => {
+  const [stocks, setStocks] = useState<{ name: string; price: number | string }[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/stock-prices")
+      .then((response) => response.json())
+      .then((data) => setStocks(data.stocks))
+      .catch((error) => console.error("Error fetching stock prices:", error));
+  }, []);
+
+  return (
+    <div className="stock-cards">
+      {stocks.map((stock) => (
+        <div key={stock.name} className="stock-card">
+          <div className="stock-info">
+            <span>{stock.name}</span>
+          </div>
+          <div className="stock-values">
+            <div>Current Price</div>
+            <div className="stock-amount">₹{stock.price}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 function StockDashboard() {
   const [ticker, setTicker] = useState("");
@@ -185,21 +205,7 @@ function StockDashboard() {
           <h2 className="section-title">My Portfolio</h2>
           <div className="portfolio-section">
             <div className="stock-cards">
-              {portfolioStocks.map((stock) => (
-                <div key={stock.name} className="stock-card">
-                  <div className="stock-info">
-                    <span>{stock.logo}</span>
-                    <span>{stock.name}</span>
-                  </div>
-                  <div className="stock-values">
-                    <div>Total Shares</div>
-                    <div className="stock-amount">{stock.value}</div>
-                    <div className={`stock-change ${stock.trend === 'up' ? 'change-positive' : 'change-negative'}`}>
-                      {stock.return}
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <StockCards />
             </div>
           </div>
 
