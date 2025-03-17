@@ -18,7 +18,7 @@ from typing import List, Dict, Optional
 
 
 
-# API Keys and Configuration
+# API Keys and Configuration for newIo {News sentiment}
 API_KEY = "pub_6830389454d2be3370f4b9fd5786223c9d6ad"
 
 # Initialize FinBERT Sentiment Analysis Pipeline
@@ -133,11 +133,24 @@ async def predict_stock(data: StockRequest):
     Predict stock prices using historical data, sentiment analysis, and SVR
     """
     try:
+        # Debug: Print the input parameters
+        print(f"Input parameters: ticker={data.ticker}, start_date={data.start_date}, end_date={data.end_date}")
+        
         # Fetch stock data
         stock_data = yf.download(data.ticker, start=data.start_date, end=data.end_date)
+        
+        # Debug: Print what we received from Yahoo Finance
+        print(f"Downloaded stock data shape: {stock_data.shape}")
+        print(f"Downloaded stock data columns: {stock_data.columns}")
+        print(f"Downloaded stock data index: {stock_data.index}")
+        print(f"First 5 rows of stock data:")
+        print(stock_data.head())
 
         if stock_data.empty:
             return {"error": "Stock data not available"}
+
+        # Create a copy of the original data for historical prices
+        original_stock_data = stock_data.copy()
 
         # Fetch and analyze news sentiment
         company_name = data.ticker.split(".")[0]
@@ -149,18 +162,43 @@ async def predict_stock(data: StockRequest):
         except ValueError:
             sentiment_score = 0.0  # Default to neutral sentiment if conversion fails
 
-        # Define features and ensure numeric conversion
+        # Build historical_prices from the original data
+        historical_prices = []
+        
+        # Debug: Check if the index and Close column exist
+        print(f"Original stock data index type: {type(original_stock_data.index)}")
+        print(f"Original stock data has Close column: {'Close' in original_stock_data.columns}")
+        
+        if 'Close' in original_stock_data.columns and len(original_stock_data) > 0:
+            # Explicitly iterate over the dataframe rows to ensure we're accessing the data correctly
+            for date_idx, row in original_stock_data.iterrows():
+                try:
+                    price = row['Close']
+                    formatted_date = date_idx.strftime("%Y-%m-%d")
+                    historical_prices.append({
+                        "date": formatted_date,
+                        "price": float(price),
+                        "type": "historical"
+                    })
+                    print(f"Added historical price: {formatted_date}, {price}")
+                except (ValueError, TypeError, AttributeError) as e:
+                    print(f"Error processing row at {date_idx}: {e}")
+        else:
+            print("Cannot create historical prices: 'Close' column missing or dataframe is empty")
+
+        # Debug: Print the first few historical prices to verify
+        print(f"First 5 historical prices: {historical_prices[:5]}")
+        print(f"Total historical prices: {len(historical_prices)}")
+
+        # Define features
         features = ['Open', 'High', 'Low', 'Close', 'Volume']
         
-        # Convert features to numeric and handle errors
-        stock_data = stock_data[features].apply(pd.to_numeric, errors='coerce')
-        stock_data.dropna(inplace=True)
-
         # Add numeric sentiment column
         stock_data['Sentiment'] = sentiment_score
 
         # Create target variable
         stock_data['Target'] = stock_data['Close'].shift(-data.forecast_out)
+        stock_data.fillna(method="ffill", inplace=True) 
         stock_data.dropna(inplace=True)
 
         # Ensure no invalid data before training
@@ -204,8 +242,10 @@ async def predict_stock(data: StockRequest):
             for date, price in zip(prediction_dates, predictions)
         ]
 
+        # Return the combined data
         return {
-            "data": prediction_data,
+            "data": historical_prices + prediction_data,
+            "Hdata": historical_prices,
             "sentiment_score": float(sentiment_score),
             "adjustment_factor": float(sentiment_score * 0.1)
         }
@@ -215,7 +255,6 @@ async def predict_stock(data: StockRequest):
         error_details = traceback.format_exc()
         print(error_details)  # Logs the full error traceback
         return {"error": f"Prediction failed: {str(e)}"}
-
 
 @app.get("/stock-prices")
 async def get_stock_prices():
