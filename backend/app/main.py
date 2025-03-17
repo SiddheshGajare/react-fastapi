@@ -13,7 +13,8 @@ import requests
 from transformers import pipeline
 from pandas.tseries.offsets import BDay
 from typing import List, Dict, Optional
-
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import numpy as np
 
 
 
@@ -216,7 +217,7 @@ async def predict_stock(data: StockRequest):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         scaler = StandardScaler()
         X_train_scaled = scaler.fit_transform(X_train)
-
+        X_test_scaled = scaler.transform(X_test) 
         # Train SVR model
         svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
         svr.fit(X_train_scaled, y_train)
@@ -241,6 +242,27 @@ async def predict_stock(data: StockRequest):
             {"date": date.strftime("%Y-%m-%d"), "price": float(price), "type": "prediction"}
             for date, price in zip(prediction_dates, predictions)
         ]
+        
+        # Calculate and print accuracy metrics
+        y_pred_test = svr.predict(X_test_scaled)
+
+# Calculate various metrics
+        mse = mean_squared_error(y_test, y_pred_test)
+        rmse = np.sqrt(mse)
+        mae = mean_absolute_error(y_test, y_pred_test)
+        r2 = r2_score(y_test, y_pred_test)
+
+# Calculate Mean Absolute Percentage Error (MAPE)
+        mape = np.mean(np.abs((y_test - y_pred_test) / y_test)) * 100
+
+# Print all metrics to terminal
+        print("\n==== MODEL EVALUATION METRICS ====")
+        print(f"Mean Squared Error (MSE): {mse:.4f}")
+        print(f"Root Mean Squared Error (RMSE): {rmse:.4f}")
+        print(f"Mean Absolute Error (MAE): {mae:.4f}")
+        print(f"Mean Absolute Percentage Error (MAPE): {mape:.2f}%")
+        print(f"R-squared (R²): {r2:.4f}")
+        print("================================\n")
 
         # Return the combined data
         return {
