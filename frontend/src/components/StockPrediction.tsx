@@ -19,6 +19,8 @@ interface StockDataPoint {
   date: string;
   price: number;
   type: 'historical' | 'prediction';
+  curprice: number;
+  name : string;
 }
 
 const StockCards = () => {
@@ -228,14 +230,7 @@ function StockDashboard() {
             {/* Chart Section */}
             <div className="chart-container">
               <div className="chart-header">
-                <div className="stock-info">
-                  <span>🍎</span>
-                  <span className="stock-name">Apple inc</span>
-                  <span className="stock-company">AAPL</span>
-                </div>
-                <div className="stock-amount">$150.70</div>
-              </div>
-              <div className="time-filters">
+                <div className="time-filters">
                 <button className="time-filter">1 Day</button>
                 <button className="time-filter active">1 Week</button>
                 <button className="time-filter">1 Month</button>
@@ -245,59 +240,66 @@ function StockDashboard() {
                 <button className="time-filter">5 Year</button>
                 <button className="time-filter">All</button>
               </div>
+                
+              </div>
+              
               {loadingChart ? (
             <p>Loading chart...</p>
           ) : stockData.length > 0 ? (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart 
-        data={stockData.map(item => ({
-          ...item,
-          historicalPrice: item.type === 'historical' ? item.price : null,
-          predictedPrice: item.type === 'prediction' ? item.price : null,
-          date: item.date
-        }))}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey="date"
-          tickFormatter={(date) => new Date(date).toLocaleDateString()}
-          angle={-45}
-          textAnchor="end"
-          height={60}
-        />
-        <YAxis
-          domain={['auto', 'auto']}
-          tickFormatter={(value) => `₹${value.toFixed(2)}`}
-        />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="historicalPrice"
-          stroke="#10B981"
-          strokeWidth={2}
-          dot={false}
-          name="Historical Price"
-          connectNulls={true}
-        />
-        <Line
-          type="monotone"
-          dataKey="predictedPrice"
-          stroke="#FF9933"
-          strokeWidth={2}
-          dot={false}
-          name="Predicted Price"
-          connectNulls={true}
-          strokeDasharray="5 5"
-        />
-        <Brush
-          dataKey="date"
-          height={30}
-          stroke="#8884d8"
-          tickFormatter={(date) => new Date(date).toLocaleDateString()}
-        />
-      </LineChart>
-    </ResponsiveContainer>)
+            <div>
+            <>
+           <div className="stock-info">
+            <span>🍎</span>
+            <span className="stock-name">Apple inc</span>
+            <span className="stock-company"></span>
+            <div className="stock-amount">$123</div>
+          </div>
+            <ResponsiveContainer width="100%" height={400}>
+
+                    <LineChart
+                      data={stockData.map(item => ({
+                        ...item,
+                        historicalPrice: item.type === 'historical' ? item.price : null,
+                        predictedPrice: item.type === 'prediction' ? item.price : null,
+                        date: item.date
+                      }))}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis
+                        dataKey="date"
+                        tickFormatter={(date) => new Date(date).toLocaleDateString()}
+                        angle={-45}
+                        textAnchor="end"
+                        height={60} />
+                      <YAxis
+                        domain={['auto', 'auto']}
+                        tickFormatter={(value) => `₹${value.toFixed(2)}`} />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend />
+                      <Line
+                        type="monotone"
+                        dataKey="historicalPrice"
+                        stroke="#10B981"
+                        strokeWidth={2}
+                        dot={false}
+                        name="Historical Price"
+                        connectNulls={true} />
+                      <Line
+                        type="monotone"
+                        dataKey="predictedPrice"
+                        stroke="#FF9933"
+                        strokeWidth={2}
+                        dot={false}
+                        name="Predicted Price"
+                        connectNulls={true}
+                        strokeDasharray="5 5" />
+                      <Brush
+                        dataKey="date"
+                        height={30}
+                        stroke="#8884d8"
+                        tickFormatter={(date) => new Date(date).toLocaleDateString()} />
+                    </LineChart>
+                  </ResponsiveContainer></></div>)
   : (
     <p>No data available</p>
   )}

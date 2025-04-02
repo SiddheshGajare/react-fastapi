@@ -263,11 +263,16 @@ async def predict_stock(data: StockRequest):
         print(f"Mean Absolute Percentage Error (MAPE): {mape:.2f}%")
         print(f"R-squared (R²): {r2:.4f}")
         print("================================\n")
-
+        stock = yf.Ticker(data.ticker)
+        hist = stock.history(period="1d")
+        print(float(hist["Close"].iloc[-1]))
+        print(data.ticker)
         # Return the combined data
         return {
+            "name": data.ticker,
             "data": historical_prices + prediction_data,
             "Hdata": historical_prices,
+            "curprice" :float(hist["Close"].iloc[-1]),
             "sentiment_score": float(sentiment_score),
             "adjustment_factor": float(sentiment_score * 0.1)
         }
