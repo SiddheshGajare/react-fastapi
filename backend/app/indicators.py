@@ -51,45 +51,55 @@ def fetch_stock_indicators(ticker):
     df["EMA"] = ta.trend.ema_indicator(df["Close"], window=20)
     df["RSI"] = ta.momentum.rsi(df["Close"], window=14)
     df["MACD"] = ta.trend.macd(df["Close"])
-    df["Bollinger_Up"], df["Bollinger_Mid"], df["Bollinger_Low"] = ta.volatility.bollinger_hband(df["Close"]), ta.volatility.bollinger_mavg(df["Close"]), ta.volatility.bollinger_lband(df["Close"])
+    df["Bollinger_Up"], df["Bollinger_Mid"], df["Bollinger_Low"] = (
+        ta.volatility.bollinger_hband(df["Close"]), 
+        ta.volatility.bollinger_mavg(df["Close"]), 
+        ta.volatility.bollinger_lband(df["Close"])
+    )
     df["OBV"] = ta.volume.on_balance_volume(df["Close"], df["Volume"])
 
     return df.iloc[-1]  # Return the latest stock indicators
 
-# ✅ Function to Predict Stock Impact
-def predict_stock_impact(company, ticker):
+# ✅ Function to Predict Stock Impact & Suggest Trade Decision
+def predict_stock_impact(company, ticker, owned_stock=False):
     news_list = fetch_news(company)
     sentiment_score = analyze_sentiment(news_list)
-    
+
     stock_data = fetch_stock_indicators(ticker)
     if stock_data is None:
-        return "Stock data not available"
+        print("⚠️ Stock data not available")
+        return 0
 
     # Convert sentiment score to impact percentage
     impact = sentiment_score * 10  
 
     # Trading Decision Based on Indicators & Sentiment
-    trade_signal = "Hold"
+    trade_signal = "No Action"
+    
     if sentiment_score > 0.05 and stock_data["RSI"] < 70:
         trade_signal = "Buy"
     elif sentiment_score < -0.05 and stock_data["RSI"] > 30:
-        trade_signal = "Sell"
+        trade_signal = "Sell" if owned_stock else "Avoid"
+    elif owned_stock:
+        trade_signal = "Hold"
 
     # Display Results
     print(f"\n📊 Predicted News Impact on {company}: {impact:.2f}%")
     print(f"📈 Technical Indicators:")
-    print(f"   - RSI: {stock_data['RSI']:.2f}")
-    print(f"   - EMA: {stock_data['EMA']:.2f}")
-    print(f"   - MACD: {stock_data['MACD']:.2f}")
-    print(f"   - Bollinger Bands: ({stock_data['Bollinger_Low']:.2f}, {stock_data['Bollinger_Mid']:.2f}, {stock_data['Bollinger_Up']:.2f})")
-    print(f"   - OBV: {stock_data['OBV']:.2f}")
+    print(f"   - RSI: {stock_data.get('RSI', 'N/A'):.2f}")
+    print(f"   - EMA: {stock_data.get('EMA', 'N/A'):.2f}")
+    print(f"   - MACD: {stock_data.get('MACD', 'N/A'):.2f}")
+    print(f"   - Bollinger Bands: ({stock_data.get('Bollinger_Low', 'N/A'):.2f}, "
+          f"{stock_data.get('Bollinger_Mid', 'N/A'):.2f}, {stock_data.get('Bollinger_Up', 'N/A'):.2f})")
+    print(f"   - OBV: {stock_data.get('OBV', 'N/A'):.2f}")
     print(f"\n💡 Suggested Trade Decision: {trade_signal}")
 
     return impact
 
-# ✅ Run Model for TCS (Example)
+# ✅ Run Model
 if __name__ == "__main__":
+    company_name = input("Enter company name: ").strip()
+    stock_ticker = input(f"Enter stock ticker for {company_name}: ").strip()
+    owned = input("Do you already own this stock? (yes/no): ").strip().lower() == "yes"
 
-    company_name = input("Enter company name: ")
-    stock_ticker = company_name+".NS"  # Use ".NS" for Indian NSE stocks on Yahoo Finance
-    predict_stock_impact(company_name, stock_ticker)
+    predict_stock_impact(company_name, stock_ticker, owned_stock=owned)
