@@ -101,8 +101,7 @@ def fetch_news(company: str) -> List[str]:
     except Exception as e:
         print(f"Error fetching news: {str(e)}")
         return []
-
-def analyze_sentiment(news_list: List[str]) -> float:
+def analyze_sentiment1(news_list: List[str]) -> float:
     """
     Analyze sentiment of news articles using FinBERT
     """
@@ -124,6 +123,53 @@ def analyze_sentiment(news_list: List[str]) -> float:
                 sentiments.append(0)
         
         return float(np.mean(sentiments)) if sentiments else 0.0
+    except Exception as e:
+        print(f"Error analyzing sentiment: {str(e)}")
+        return 0.0 
+    
+def analyze_sentiment(news_list: List[str]) -> float:
+    """
+    Analyze sentiment of news articles using FinBERT
+    """
+    if not news_list:
+        return 0.0
+
+    try:
+        sentiments = []
+        print("\n===== News Sentiment Analysis =====\n")
+
+        for news in news_list:
+            result = sentiment_pipeline(news)[0]
+
+            # Extract sentiment probabilities (assumed based on FinBERT behavior)
+            sentiment = result['label']
+            score = result['score']
+
+            if sentiment == "positive":
+                sentiment_score = score * 10  # Scale up positive impact
+            elif sentiment == "negative":
+                sentiment_score = -score * 10  # Scale up negative impact
+            else:  # Neutral case
+                sentiment_score = 0.0
+
+            # Store sentiment score for averaging
+            sentiments.append(sentiment_score)
+
+            # Print detailed probabilities
+            print(f"News: {news[:100]}...")
+            print(f"Sentiment Probabilities -> Negative: {1-score:.4f}, Neutral: {0.0000:.4f}, Positive: {score:.4f}")
+            print(f"Calculated Sentiment Score: {sentiment_score:.4f}\n")
+
+        # Compute average sentiment score
+        avg_sentiment = float(np.mean(sentiments)) if sentiments else 0.0
+        predicted_impact = round(avg_sentiment * 2, 2)  # Convert score to % impact
+
+        print("===== Final Impact Calculation =====")
+        print(f"Average Sentiment Score: {avg_sentiment:.4f}")
+        print(f"Predicted Impact: {predicted_impact}%\n")
+
+        return predicted_impact  # Return as a percentage change
+
     except Exception as e:
         print(f"Error analyzing sentiment: {str(e)}")
         return 0.0
@@ -155,7 +201,7 @@ async def predict_stock(data: StockRequest):
 
         # Fetch and analyze news sentiment
         company_name = data.ticker.split(".")[0]
-        sentiment_score = analyze_sentiment(fetch_news(company_name))
+        sentiment_score = analyze_sentiment1(fetch_news(company_name))
 
         # Ensure sentiment_score is a float
         try:
@@ -319,20 +365,34 @@ async def news_impact(company: str):
     Get news sentiment impact for a company based on its name.
     """
     try:
-        # Fetch news using the company name
         news_list = fetch_news(company)
+        if not news_list:
+            return {"company": company, "impact": 0.0, "reasons": ["No relevant news found."]}
 
-        # Analyze sentiment of the fetched news articles
         impact = analyze_sentiment(news_list)
 
-        # Extract key phrases or sentences as reasons
-        reasons = [news[:200] + "..." for news in news_list[:3]] if news_list else ["No relevant news found."]
+        # Generate detailed reasons
+        reasons = []
+        for news in news_list:
+            result = sentiment_pipeline(news)[0]
+            sentiment_label = result['label']
+            score = result['score']
 
-        return {
-            "company": company,
-            "impact": float(impact),
-            "reasons": reasons
-        }
+            if sentiment_label == "positive":
+                sentiment_score = score * 10
+                sentiment_text = "[Positive]"
+            elif sentiment_label == "negative":
+                sentiment_score = -score * 10
+                sentiment_text = "[Negative]"
+            else:
+                sentiment_score = 0.0
+                sentiment_text = "[Neutral]"
+
+            # Format reason with sentiment label
+            reason_text = f"{sentiment_text} {news[:150]}..."
+            reasons.append(reason_text)
+
+        return {"company": company, "impact": float(impact), "reasons": reasons}
 
     except Exception as e:
         return {"error": f"Failed to analyze news impact: {str(e)}"}

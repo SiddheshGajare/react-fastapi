@@ -249,6 +249,7 @@ function StockDashboard() {
             <div>
             <>
            <div className="stock-info">
+            
             <span>🍎</span>
             <span className="stock-name">Apple inc</span>
             <span className="stock-company"></span>
