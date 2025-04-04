@@ -15,6 +15,7 @@ from pandas.tseries.offsets import BDay
 from typing import List, Dict, Optional
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import numpy as np
+import ta  
 
 
 
@@ -36,6 +37,11 @@ app.add_middleware(
 )
 
 # Pydantic Models
+class StockRequest2(BaseModel):
+    company: str
+    ticker: str
+    owned_stock: bool
+
 class StockRequest(BaseModel):
     ticker: str
     start_date: str
@@ -126,7 +132,29 @@ def analyze_sentiment1(news_list: List[str]) -> float:
     except Exception as e:
         print(f"Error analyzing sentiment: {str(e)}")
         return 0.0 
-    
+
+def fetch_stock_indicators(ticker):
+    stock = yf.Ticker(ticker)
+    df = stock.history(period="1mo", interval="1d")  # Last 1 month data
+
+    if df.empty:
+        return None
+
+    # Calculate Technical Indicators
+    df["EMA"] = ta.trend.ema_indicator(df["Close"], window=20)
+    df["RSI"] = ta.momentum.rsi(df["Close"], window=14)
+    df["MACD"] = ta.trend.macd(df["Close"])
+    df["Bollinger_Up"], df["Bollinger_Mid"], df["Bollinger_Low"] = (
+        ta.volatility.bollinger_hband(df["Close"]), 
+        ta.volatility.bollinger_mavg(df["Close"]), 
+        ta.volatility.bollinger_lband(df["Close"])
+    )
+    df["OBV"] = ta.volume.on_balance_volume(df["Close"], df["Volume"])
+    df.fillna(0, inplace=True)  # This will replace all NaN values with 0
+
+    return df.iloc[-1].to_dict() 
+
+
 def analyze_sentiment(news_list: List[str]) -> float:
     """
     Analyze sentiment of news articles using FinBERT
@@ -398,6 +426,43 @@ async def news_impact(company: str):
         return {"error": f"Failed to analyze news impact: {str(e)}"}
 
 
+@app.post("/Indicotor")
+def predict_stock_impact(stock_request: StockRequest2):
+    news_list = fetch_news(stock_request.company)
+    sentiment_score = analyze_sentiment1(news_list)
+
+    stock_data = fetch_stock_indicators(stock_request.ticker)
+    if stock_data is None:
+        return {"error": "Stock data not available"}
+
+    # Convert sentiment score to impact percentage
+    impact = sentiment_score * 10  
+
+    # Trading Decision Based on Indicators & Sentiment
+    trade_signal = "No Action"
+    
+    if sentiment_score > 0.05 and stock_data["RSI"] < 70:
+        trade_signal = "Buy"
+    elif sentiment_score < -0.05 and stock_data["RSI"] > 30:
+        trade_signal = "Sell" if stock_request.owned_stock else "Avoid"
+    elif stock_request.owned_stock:
+        trade_signal = "Hold"
+
+    return {
+        "company": stock_request.company,
+        "ticker": stock_request.ticker,
+        "impact": round(impact, 2),
+        "RSI": round(stock_data["RSI"], 2),
+        "EMA": round(stock_data["EMA"], 2),
+        "MACD": round(stock_data["MACD"], 2),
+        "Bollinger_Bands": {
+            "Low": round(stock_data["Bollinger_Low"], 2),
+            "Mid": round(stock_data["Bollinger_Mid"], 2),
+            "Up": round(stock_data["Bollinger_Up"], 2)
+        },
+        "OBV": round(stock_data["OBV"], 2),
+        "trade_decision": trade_signal
+    }
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

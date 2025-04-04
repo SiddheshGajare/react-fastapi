@@ -65,7 +65,7 @@ function NewspaperSec() {
                   <LayoutDashboard className="nav-icon" />
                   <span>Dashboard</span>
                 </div>
-                <div className="nav-item">
+                <div className="nav-item" onClick={() => navigate('/StockAnalyzer')} >
                   <Wallet className="nav-icon" />
                   <span>Wallet</span>
                 </div>
