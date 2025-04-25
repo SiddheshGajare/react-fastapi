@@ -1,0 +1,173 @@
+/* Base styles */
+
+.dashboard-layout{
+   
+    color: black;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 99vh;
+    overflow: hidden;
+    background: #F6F7F9;
+    
+  }
+  .dashboard {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    overflow-x: hidden;
+    background: white;
+    color: #F6F7F9;
+  }
+  
+  
+  /* Updated Sidebar Styles with Correct Class Names */
+  .sidebar {
+    width: 280px;
+    background: #FFFFFF;
+    height: 100vh;
+    padding: 1.5rem;
+    display: flex
+  ;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  /* Logo and Investment Card Section */
+  .nav-first-container {
+    height: 235px;
+    margin-bottom: 2rem;
+  }
+  
+  .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2.5rem;
+  padding-left: 0.5rem;
+  }
+  
+  .investment-card {
+  background: #1A1A1A;
+  color: white;
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  }
+  .nev-bar{
+    height: 500px;
+  }
+  /* Main Navigation Section */
+  .nav-bar {
+  font-size: small;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  }
+  
+  .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+  }
+  
+  .nav-item:hover {
+  background: #F3F4F6;
+  }
+  
+  .nav-sub-items-container {
+  margin-left: 2.5rem;
+  padding-top: 0.5rem;
+  }
+  
+  .nav-sub-item {
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #6B7280;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  }
+  .nev-2ndcontainer{
+    height: 435px;
+  }
+  /* Bottom Navigation Section */
+  .nav-third-container {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid #E5E7EB;
+  top: 44px;
+  position: relative;
+  }
+  
+  /* Chart and Watchlist Container */
+  .chart-watchlist-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: -0.5rem;
+  height: 70vh;
+  }
+  
+  /* Updated Profile Section */
+  .profile-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #F9FAFB;
+  border-radius: 0.75rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+  }
+  
+  .chart-watchlist-container {
+    flex-direction: column;
+    height: auto;
+  }
+  }
+  .main-content{
+    height: 100vh !important;
+    width: 85vw !important;
+    display: flex !important;
+    overflow-y: scroll !important; /* Enables only vertical scroll */
+    overflow-x: hidden !important;
+    flex-direction: column !important;
+    background: #F6F7F9 !important;
+    border: none !important;
+    
+  }
+ 
+
+  
+.inputbox1{
+  color: black;
+}
+
+.inputbox2{
+  color: black;
+}
+.indicator-main-container{
+  display: flex
+  ;
+  padding-left: 50vb;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.checkbox-container{
+ 
+}
+.label1{
+
+}
