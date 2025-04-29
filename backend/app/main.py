@@ -215,11 +215,11 @@ async def predict_stock(data: StockRequest):
         stock_data = yf.download(data.ticker, start=data.start_date, end=data.end_date)
         
         # Debug: Print what we received from Yahoo Finance
-        print(f"Downloaded stock data shape: {stock_data.shape}")
-        print(f"Downloaded stock data columns: {stock_data.columns}")
-        print(f"Downloaded stock data index: {stock_data.index}")
-        print(f"First 5 rows of stock data:")
-        print(stock_data.head())
+        #print(f"Downloaded stock data shape: {stock_data.shape}")
+        #print(f"Downloaded stock data columns: {stock_data.columns}")
+        #print(f"Downloaded stock data index: {stock_data.index}")
+        #print(f"First 5 rows of stock data:")
+        #print(stock_data.head())
 
         if stock_data.empty:
             return {"error": "Stock data not available"}
@@ -241,8 +241,8 @@ async def predict_stock(data: StockRequest):
         historical_prices = []
         
         # Debug: Check if the index and Close column exist
-        print(f"Original stock data index type: {type(original_stock_data.index)}")
-        print(f"Original stock data has Close column: {'Close' in original_stock_data.columns}")
+        #print(f"Original stock data index type: {type(original_stock_data.index)}")
+        #print(f"Original stock data has Close column: {'Close' in original_stock_data.columns}")
         
         if 'Close' in original_stock_data.columns and len(original_stock_data) > 0:
             # Explicitly iterate over the dataframe rows to ensure we're accessing the data correctly
@@ -341,6 +341,7 @@ async def predict_stock(data: StockRequest):
         hist = stock.history(period="1d")
         print(float(hist["Close"].iloc[-1]))
         print(data.ticker)
+        print(prediction_data)
         # Return the combined data
         return {
             "name": data.ticker,
